@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//OpenMRS//DTD OpenMRS Config 1.2//EN" "https://resources.openmrs.org/doctype/config-1.2.dtd">
+
+<module configVersion="1.2">
+
+	<id>chublidatheme</id>
+	<name>CHU Blida Theme</name>
+	<version>${project.parent.version}</version>
+	<package>org.openmrs.module.chublidatheme</package>
+	<author>CERIST / CHU Blida</author>
+	<description>
+		Branding and user-experience layer for Centre Hospitalo-Universitaire de Blida.
+		Presentation only: no clinical logic, no schema changes, no upstream module is modified.
+		Stopping this module restores the stock OpenMRS appearance immediately.
+	</description>
+
+	<activator>org.openmrs.module.chublidatheme.ChuBlidaThemeActivator</activator>
+
+	<!-- Runs on the WAR reported by the CHU Blida instance (2.4.3) and on Platform 2.5.9. -->
+	<require_version>2.4.3</require_version>
+
+	<!--
+	  The keystone. Injects the theme stylesheet into every HTML response, which is the only way to
+	  reach the login page (a standalone GSP with no extension point) and the legacy administration
+	  JSPs with one implementation.
+	-->
+	<filter>
+		<filter-name>chuBlidaThemeInjection</filter-name>
+		<filter-class>org.openmrs.module.chublidatheme.web.filter.ThemeInjectionFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>chuBlidaThemeInjection</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<globalProperty>
+		<property>chublidatheme.enabled</property>
+		<defaultValue>true</defaultValue>
+		<description>
+			Master switch. Set to false to disable all theming without stopping the module.
+		</description>
+	</globalProperty>
+
+	<globalProperty>
+		<property>chublidatheme.autoRtl</property>
+		<defaultValue>true</defaultValue>
+		<description>
+			Stamp dir="rtl" on the html element for right-to-left locales such as Arabic. The
+			Reference Application does not do this itself.
+		</description>
+	</globalProperty>
+
+	<globalProperty>
+		<property>chublidatheme.assetVersion</property>
+		<defaultValue>1.0.5</defaultValue>
+		<description>
+			Cache-busting suffix appended to injected asset URLs. Change this after editing a
+			stylesheet in place so browsers pick up the new file.
+		</description>
+	</globalProperty>
+
+	<globalProperty>
+		<property>chublidatheme.skipPaths</property>
+		<defaultValue></defaultValue>
+		<description>
+			Comma-separated URL fragments the injection filter must leave completely alone,
+			in addition to the built-in exclusions (/ws/, /dwr/, static assets, fragment
+			actions, and any request whose Sec-Fetch-Dest is not a document).
+			Example: /adminui/systemadmin/,/myreports/
+			Lets a page be taken out of the filter's path immediately, without a rebuild and
+			without disabling the whole theme.
+		</description>
+	</globalProperty>
+
+	<messages>
+		<lang>en</lang>
+		<file>messages.properties</file>
+	</messages>
+	<messages>
+		<lang>fr</lang>
+		<file>messages_fr.properties</file>
+	</messages>
+	<messages>
+		<lang>ar</lang>
+		<file>messages_ar.properties</file>
+	</messages>
+
+</module>

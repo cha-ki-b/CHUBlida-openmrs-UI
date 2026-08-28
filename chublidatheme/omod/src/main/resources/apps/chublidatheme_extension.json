@@ -1,0 +1,12 @@
+[
+    {
+        "id": "chublidatheme.header.config",
+        "extensionPointId": "org.openmrs.module.appui.header.config",
+        "type": "config",
+        "order": 0,
+        "extensionParams": {
+            "logo-icon-url": "/moduleResources/chublidatheme/images/chu-blida-wordmark.svg",
+            "logo-link-url": "/index.htm"
+        }
+    }
+]

@@ -1,0 +1,67 @@
+# Local replica of the CHU Blida target environment, for developing and
+# verifying the theme without touching the hospital server.
+#
+#   docker compose up -d          start
+#   docker compose logs -f web    watch startup (first boot takes several minutes)
+#   docker compose down -v        reset completely
+#
+# Then open http://localhost:8080/openmrs  (admin / Admin123)
+#
+# The built omod is mounted read-only, so `mvn package` followed by a container
+# restart is the whole iteration loop.
+
+services:
+  db:
+    image: mysql:5.7
+    command: >
+      mysqld
+      --character-set-server=utf8
+      --collation-server=utf8_general_ci
+      --max_allowed_packet=1G
+      --innodb-file-per-table=1
+    environment:
+      MYSQL_DATABASE: openmrs
+      MYSQL_ROOT_PASSWORD: openmrs_root
+      MYSQL_USER: openmrs
+      MYSQL_PASSWORD: openmrs
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-popenmrs_root"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
+
+  web:
+    # The exact distribution CHU Blida runs.
+    image: openmrs/openmrs-reference-application-distro:2.12.2
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      DB_DATABASE: openmrs
+      DB_HOST: db
+      DB_USERNAME: openmrs
+      DB_PASSWORD: openmrs
+      DB_CREATE_TABLES: "true"
+      DB_AUTO_UPDATE: "true"
+      MODULE_WEB_ADMIN: "true"
+      # Headroom for the first-boot Liquibase run and the demo data import.
+      JAVA_OPTS: "-Xmx2g -Xms512m"
+    volumes:
+      # The theme under test.
+      - ./chublidatheme/omod/target/chublidatheme-omod-1.0.0-SNAPSHOT.omod:/openmrs/distribution/openmrs_modules/chublidatheme.omod:ro
+      - openmrs-data:/openmrs/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8080/openmrs/ || exit 1"]
+      interval: 20s
+      timeout: 10s
+      retries: 40
+      start_period: 300s
+
+volumes:
+  db-data:
+  openmrs-data:
