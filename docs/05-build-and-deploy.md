@@ -23,7 +23,7 @@ cd chublidatheme
 mvn clean package
 ```
 
-Produces `chublidatheme/omod/target/chublidatheme-omod-1.0.5.omod` (~299 KB).
+Produces `chublidatheme/omod/target/chublidatheme-omod-1.0.6.omod` (~299 KB).
 
 ### Regenerating design tokens
 
@@ -81,7 +81,7 @@ source raster and an average colour error of 0.18/255.
 
 1. Sign in as a user with **Manage Modules**.
 2. Go to **Administration → Manage Modules → Add or Upgrade Module**.
-3. Upload `chublidatheme-omod-1.0.5.omod`.
+3. Upload `chublidatheme-omod-1.0.6.omod`.
 4. The module starts automatically. Reload any page.
 
 Requires `MODULE_WEB_ADMIN=true` (`module.allow_web_admin` in `openmrs-runtime.properties`).
@@ -91,7 +91,7 @@ Requires `MODULE_WEB_ADMIN=true` (`module.allow_web_admin` in `openmrs-runtime.p
 Copy the `.omod` into the modules directory and restart Tomcat:
 
 ```bash
-cp chublidatheme-omod-1.0.5.omod $OPENMRS_APPLICATION_DATA_DIRECTORY/modules/
+cp chublidatheme-omod-1.0.6.omod $OPENMRS_APPLICATION_DATA_DIRECTORY/modules/
 ```
 
 ### Option C — Docker
@@ -100,7 +100,7 @@ Mount it into the distribution's module directory:
 
 ```yaml
 volumes:
-  - ./chublidatheme/omod/target/chublidatheme-omod-1.0.5.omod:/openmrs/distribution/openmrs_modules/chublidatheme.omod:ro
+  - ./chublidatheme/omod/target/chublidatheme-omod-1.0.6.omod:/openmrs/distribution/openmrs_modules/chublidatheme.omod:ro
 ```
 
 ---
@@ -127,7 +127,7 @@ Under **Administration → Settings → Chublidatheme**:
 |---|---|---|
 | `chublidatheme.enabled` | `true` | Master switch (rollback level 1) |
 | `chublidatheme.autoRtl` | `true` | Stamp `dir="rtl"` for Arabic and other RTL locales. The Reference Application does not do this itself, so turning it off leaves Arabic rendering left-to-right. |
-| `chublidatheme.assetVersion` | `1.0.5` | Cache-busting suffix on injected asset URLs. Change it after editing a stylesheet in place so browsers fetch the new file. |
+| `chublidatheme.assetVersion` | `1.0.6` | Cache-busting suffix on injected asset URLs. Change it after editing a stylesheet in place so browsers fetch the new file. |
 
 ---
 
@@ -180,7 +180,7 @@ instance**. It reports what is actually painted:
 // paste tools/audit-page.js into the console
 ```
 
-### Results at v1.0.5
+### Results at v1.0.6
 
 | Dimension | Result |
 |---|---|

@@ -1,5 +1,84 @@
 # Changelog
 
+## 1.0.6 — 2026-08-28
+
+Support for the three CHU-specific modules. **No module source was modified** —
+everything here is the theme adapting to them.
+
+| Module | Namespace | Work needed |
+|---|---|---|
+| `patientview` (Neurosurgery) | `.neuro-*` throughout | Colour harmonisation only |
+| `medreport` (Medical reporting) | `.mr-*` throughout | Colour harmonisation only |
+| `imaging` (Orthanc) | mixed, plus bare `body`, `button`, `table[data-sortable]` | Real compatibility work |
+
+All three decorate with `appui:standardEmrPage`, so the themed header, breadcrumbs
+and canvas already applied. The problem was the opposite direction: the theme's own
+resets were overriding *their* functional CSS.
+
+### Fixed — functional regressions the theme would have caused
+
+**Sticky table headers in the imaging study list.** The data-table rule carried
+`overflow: hidden` to clip its rounded corners. `overflow` on a table establishes a
+scroll container, which silently disables `position: sticky` on its own `thead` —
+and imaging scrolls a long study list inside `#table-scroll` with sticky headers.
+The corners are now produced with per-corner radii on the edge cells, which looks
+identical and leaves sticky working.
+
+**Double scroll containers.** `prepareTables()` wrapped every wide table in
+`.chu-table-scroll`, including one already inside imaging's `#table-scroll`. Sticky
+then resolved against the wrong ancestor. The JS now skips any table with a
+scrolling ancestor, any `[data-sortable]` table (stacking breaks the sort UI and the
+plugin's column indexes), and any table a module namespaces.
+
+**Imaging modals opened behind the theme chrome.** `.overlay-container.show` is
+z-index 2, while the app rail is 900 and the dock 920. The overlay is lifted to 1050,
+and the rail and dock drop to 10 while a modal is open. (patientview modals are
+already 1000, medreport 9000.)
+
+**Module-owned controls were being flattened.** The generic `button` reset has
+`!important` and was overriding `.neuro-btn`, `.mr-btn` and imaging's
+`.btn-submit` / `.btn-open-popup-*`. Worse, `.table-btn-link` — an inline link
+rendered as a `<button>` — became a 40px bordered block inside a table cell. Buttons,
+inputs and module table cells now carry explicit exclusions, written as attribute
+selectors so there is no flash before JS runs.
+
+**`.neuro-nav-item` was 68px tall** (sidebar 716px). `min-block-size` applies to the
+content box, so 44 + 12 + 12. Now `border-box`, giving 45px.
+
+### Changed — colour harmonisation, geometry untouched
+
+Imaging colour-codes its actions; the distinctions are preserved and mapped onto CHU
+tokens, so the meaning survives and the palette matches: `#009384` → action,
+`#EEA616` → warning, `#5B57A6` → link. Neurosurgery's `#2c5aa0` / `#28a745` gradients
+are re-pointed at theme tokens with the white text kept.
+
+Two of the module's own colours sat just under AA on its light panels — the surgery
+date at **3.78:1** and the surgeon name at **4.45:1**, present with or without the
+theme. Both re-pointed at theme tokens.
+
+### Fixed — two false positives in `tools/audit-page.js`
+
+Both would have hidden real problems behind noise:
+
+- **Gradient backdrops.** The probe read only `backgroundColor`, so text on a
+  `linear-gradient` reported a transparent parent and a bogus 1.00. Those are now
+  counted separately as *not rated* for manual review.
+- **Translucent layers.** A frosted chip such as `rgba(255,255,255,.2)` over a dark
+  panel was measured as white-on-white. Layers are now composited down to the first
+  opaque one.
+
+Re-running the corrected tool against the module pages **without** the theme showed
+11 pre-existing failures on the neurosurgery page versus 9 with it — the theme was
+already improving that page, not degrading it.
+
+### Verification
+
+9 pages × 3 widths (1440 / 820 / 390): **27 combinations, 1347 text nodes, 0 contrast
+failures, 0 horizontal scroll, 0 elements widening the page, 0 status by colour alone.**
+Fixtures use each module's real stylesheets and markup traced from its own `.gsp`
+sources, built both with and without the theme so functional regressions show up as
+differences rather than absolutes.
+
 ## 1.0.5 — 2026-08-28
 
 ### Fixed — Advanced Administration was not responsive

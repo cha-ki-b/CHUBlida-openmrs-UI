@@ -28,7 +28,7 @@ public final class ChuBlidaThemeConstants {
 	 */
 	public static final String GP_ASSET_VERSION = "chublidatheme.assetVersion";
 
-	public static final String DEFAULT_ASSET_VERSION = "1.0.5";
+	public static final String DEFAULT_ASSET_VERSION = "1.0.6";
 
 	/**
 	 * Comma-separated URL fragments the filter must not touch, on top of the built-in list.

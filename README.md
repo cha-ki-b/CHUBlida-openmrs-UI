@@ -2,7 +2,7 @@
 
 Branding and user-experience layer for the OpenMRS installation at **Centre Hospitalo-Universitaire de Blida**, part of the `openmrs-orthanc-integration` project.
 
-**Status:** 🟢 *v1.0.5 — running on the CHU Blida instance; Advanced Administration fixes.*
+**Status:** 🟢 *v1.0.6 — running on the CHU Blida instance; Advanced Administration fixes.*
 See [`CHANGELOG.md`](CHANGELOG.md) for what changed and [`docs/06-verification-report.md`](docs/06-verification-report.md) for what is still untested.
 
 ---
@@ -59,7 +59,7 @@ Custom-openmrs-UI/
 cd chublidatheme && mvn clean package -DskipTests
 ```
 
-Upload `chublidatheme/omod/target/chublidatheme-omod-1.0.5.omod` via
+Upload `chublidatheme/omod/target/chublidatheme-omod-1.0.6.omod` via
 **Administration → Manage Modules**. To undo: stop the module, or set
 `chublidatheme.enabled` to `false`. Full instructions in
 [`docs/05-build-and-deploy.md`](docs/05-build-and-deploy.md).
