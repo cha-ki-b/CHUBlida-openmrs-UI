@@ -52,7 +52,7 @@
 
 	<globalProperty>
 		<property>chublidatheme.assetVersion</property>
-		<defaultValue>1.0.5</defaultValue>
+		<defaultValue>1.0.6</defaultValue>
 		<description>
 			Cache-busting suffix appended to injected asset URLs. Change this after editing a
 			stylesheet in place so browsers pick up the new file.

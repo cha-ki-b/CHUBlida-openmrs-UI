@@ -571,9 +571,19 @@ header .user-options .logout:hover i { color: var(--chu-critical) !important; }
    5. Buttons
    ========================================================================== */
 
-.button, button,
-input[type="submit"], input[type="button"], a.button,
-.btn {
+/*
+  Module-owned controls are excluded here. The three CHU modules each ship their
+  own button components (`.neuro-btn`, `.mr-btn`, imaging's `.btn-submit` /
+  `.btn-open-popup-*`), and imaging's `.table-btn-link` is a link rendered as a
+  <button>. Overriding those with the generic reset flattened their colours and
+  turned an inline link into a 40px bordered block inside a table cell.
+
+  They keep their own geometry; the theme only harmonises their colour further
+  down, in the module compatibility section.
+*/
+.button:not([class*="neuro-"]):not([class*="mr-"]):not([class*="btn-submit"]):not([class*="btn-close-popup"]):not([class*="btn-open-popup"]):not([class*="table-btn-link"]):not(.chu-native), button:not([class*="neuro-"]):not([class*="mr-"]):not([class*="btn-submit"]):not([class*="btn-close-popup"]):not([class*="btn-open-popup"]):not([class*="table-btn-link"]):not(.chu-native),
+input[type="submit"]:not([class*="neuro-"]):not([class*="mr-"]):not([class*="btn-submit"]):not([class*="btn-close-popup"]):not([class*="btn-open-popup"]):not([class*="table-btn-link"]):not(.chu-native), input[type="button"]:not([class*="neuro-"]):not([class*="mr-"]):not([class*="btn-submit"]):not([class*="btn-close-popup"]):not([class*="btn-open-popup"]):not([class*="table-btn-link"]):not(.chu-native), a.button:not([class*="neuro-"]):not([class*="mr-"]):not([class*="btn-submit"]):not([class*="btn-close-popup"]):not([class*="btn-open-popup"]):not([class*="table-btn-link"]):not(.chu-native),
+.btn:not([class*="neuro-"]):not([class*="mr-"]):not([class*="btn-submit"]):not([class*="btn-close-popup"]):not([class*="btn-open-popup"]):not([class*="table-btn-link"]):not(.chu-native) {
   font-family: var(--chu-font-ui) !important;
   font-size: var(--chu-text-base) !important;
   font-weight: 600 !important;
@@ -593,8 +603,9 @@ input[type="submit"], input[type="button"], a.button,
     background-color var(--chu-dur-fast) var(--chu-ease-out),
     border-color var(--chu-dur-fast) var(--chu-ease-out);
 }
-.button:hover, button:hover,
-input[type="submit"]:hover, input[type="button"]:hover, a.button:hover, .btn:hover {
+.button:not([class*="neuro-"]):not([class*="mr-"]):not([class*="btn-submit"]):not([class*="btn-close-popup"]):not([class*="btn-open-popup"]):not([class*="table-btn-link"]):not(.chu-native):hover, button:not([class*="neuro-"]):not([class*="mr-"]):not([class*="btn-submit"]):not([class*="btn-close-popup"]):not([class*="btn-open-popup"]):not([class*="table-btn-link"]):not(.chu-native):hover,
+input[type="submit"]:not([class*="neuro-"]):not([class*="mr-"]):not([class*="btn-submit"]):not([class*="btn-close-popup"]):not([class*="btn-open-popup"]):not([class*="table-btn-link"]):not(.chu-native):hover, input[type="button"]:not([class*="neuro-"]):not([class*="mr-"]):not([class*="btn-submit"]):not([class*="btn-close-popup"]):not([class*="btn-open-popup"]):not([class*="table-btn-link"]):not(.chu-native):hover,
+a.button:not([class*="neuro-"]):not([class*="mr-"]):not([class*="btn-submit"]):not([class*="btn-close-popup"]):not([class*="btn-open-popup"]):not([class*="table-btn-link"]):not(.chu-native):hover, .btn:not([class*="neuro-"]):not([class*="mr-"]):not([class*="btn-submit"]):not([class*="btn-close-popup"]):not([class*="btn-open-popup"]):not([class*="table-btn-link"]):not(.chu-native):hover {
   background: var(--chu-surface-sunken) !important;
   border-color: var(--chu-action-quiet) !important;
   color: var(--chu-action) !important;
@@ -653,9 +664,10 @@ input[type="submit"]:not(.cancel):not(.no-color):hover {
    6. Forms
    ========================================================================== */
 
-input[type="text"], input[type="password"], input[type="email"], input[type="number"],
-input[type="search"], input[type="tel"], input[type="date"], input[type="url"],
-select, textarea, .form-control {
+input[type="text"]:not([class*="neuro-"]):not([class*="mr-"]):not([class*="btn-submit"]):not([class*="btn-close-popup"]):not([class*="btn-open-popup"]):not([class*="table-btn-link"]):not(.chu-native), input[type="password"]:not([class*="neuro-"]):not([class*="mr-"]):not([class*="btn-submit"]):not([class*="btn-close-popup"]):not([class*="btn-open-popup"]):not([class*="table-btn-link"]):not(.chu-native), input[type="email"]:not([class*="neuro-"]):not([class*="mr-"]):not([class*="btn-submit"]):not([class*="btn-close-popup"]):not([class*="btn-open-popup"]):not([class*="table-btn-link"]):not(.chu-native),
+input[type="number"]:not([class*="neuro-"]):not([class*="mr-"]):not([class*="btn-submit"]):not([class*="btn-close-popup"]):not([class*="btn-open-popup"]):not([class*="table-btn-link"]):not(.chu-native), input[type="search"]:not([class*="neuro-"]):not([class*="mr-"]):not([class*="btn-submit"]):not([class*="btn-close-popup"]):not([class*="btn-open-popup"]):not([class*="table-btn-link"]):not(.chu-native), input[type="tel"]:not([class*="neuro-"]):not([class*="mr-"]):not([class*="btn-submit"]):not([class*="btn-close-popup"]):not([class*="btn-open-popup"]):not([class*="table-btn-link"]):not(.chu-native),
+input[type="date"]:not([class*="neuro-"]):not([class*="mr-"]):not([class*="btn-submit"]):not([class*="btn-close-popup"]):not([class*="btn-open-popup"]):not([class*="table-btn-link"]):not(.chu-native), input[type="url"]:not([class*="neuro-"]):not([class*="mr-"]):not([class*="btn-submit"]):not([class*="btn-close-popup"]):not([class*="btn-open-popup"]):not([class*="table-btn-link"]):not(.chu-native),
+select:not([class*="neuro-"]):not([class*="mr-"]):not([class*="btn-submit"]):not([class*="btn-close-popup"]):not([class*="btn-open-popup"]):not([class*="table-btn-link"]):not(.chu-native), textarea:not([class*="neuro-"]):not([class*="mr-"]):not([class*="btn-submit"]):not([class*="btn-close-popup"]):not([class*="btn-open-popup"]):not([class*="table-btn-link"]):not(.chu-native), .form-control:not([class*="neuro-"]):not([class*="mr-"]):not([class*="btn-submit"]):not([class*="btn-close-popup"]):not([class*="btn-open-popup"]):not([class*="table-btn-link"]):not(.chu-native) {
   font-family: var(--chu-font-ui) !important;
   font-size: var(--chu-text-base) !important;
   color: var(--chu-ink) !important;
@@ -745,6 +757,14 @@ table[role="presentation"], table[role="presentation"] td {
   border: 0 !important;
 }
 
+/*
+  NOTE ON `overflow`: this rule deliberately does NOT clip the table.
+  `overflow: hidden` on a table establishes a scroll container, which silently
+  disables `position: sticky` on its own `thead` - and the imaging module scrolls
+  a long study list inside `#table-scroll` with sticky headers. The rounded
+  corners are produced with per-corner radii on the edge cells instead, which
+  looks identical and leaves sticky working.
+*/
 table:has(> thead > tr > th),
 table:has(> thead > tr > td),
 table.chu-data-table {
@@ -754,10 +774,13 @@ table.chu-data-table {
   background: var(--chu-surface);
   border: 1px solid var(--chu-border);
   border-radius: var(--chu-radius-lg);
-  overflow: hidden;
   font-size: var(--chu-text-sm);
 }
-table th {
+table:has(> thead) > thead > tr > :first-child { border-start-start-radius: var(--chu-radius-lg); }
+table:has(> thead) > thead > tr > :last-child  { border-start-end-radius: var(--chu-radius-lg); }
+table:has(> thead) > tbody > tr:last-child > :first-child { border-end-start-radius: var(--chu-radius-lg); }
+table:has(> thead) > tbody > tr:last-child > :last-child  { border-end-end-radius: var(--chu-radius-lg); }
+table:not([class*="neuro-"]):not([class*="mr-"]):not([data-sortable]):not(.chu-native) th {
   background: var(--chu-surface-sunken) !important;
   color: var(--chu-ink-muted) !important;
   /* uicommons sets th to its own OpenSansBold face, so this has to be explicit. */
@@ -771,8 +794,8 @@ table th {
   border-block-end: 1px solid var(--chu-border) !important;
   white-space: nowrap;
 }
-table:has(> thead) td,
-table.chu-data-table td {
+table:not([class*="neuro-"]):not([class*="mr-"]):not([data-sortable]):not(.chu-native):has(> thead) td,
+table:not([class*="neuro-"]):not([class*="mr-"]):not([data-sortable]):not(.chu-native).chu-data-table td {
   padding: var(--chu-space-3) var(--chu-space-4) !important;
   border: 0 !important;
   border-block-end: 1px solid var(--chu-border) !important;
@@ -1974,6 +1997,308 @@ html.chu-reveal-active .chu-reveal:not(.is-visible) {
 }
 .chu-reveal.is-visible { opacity: 1; transform: none; will-change: auto; }
 
+
+/* ==========================================================================
+   20b. CHU custom modules — compatibility and harmonisation
+
+   Three site-specific modules add their own pages. None of their source is
+   touched: everything below is the theme adapting to them.
+
+     imaging      (custom-imaging-openmrs)     studies, series, instances,
+                                               worklist, Orthanc settings
+     patientview  (Neurosurgery patient view)  10 clinician-facing pages
+     medreport    (Medical reporting)          reports, wizard, settings
+
+   All three decorate with appui:standardEmrPage, so they already inherit the
+   themed header, breadcrumbs and canvas. patientview and medreport namespace
+   every class (.neuro-*, .mr-*) and need only colour harmonisation. imaging
+   uses bare element selectors and needed real compatibility work.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   20b.1 Stacking — imaging modals must sit above the theme chrome
+
+   The imaging overlay is z-index 2, while the app rail is 900 and the
+   quick-actions dock 920, so its popups opened behind them. All theme chrome
+   sits below 1000, so lifting the overlay past that line is enough.
+   patientview modals are already 1000 and medreport 9000.
+   -------------------------------------------------------------------------- */
+.overlay-container,
+.overlay-container.show,
+.popup-box,
+.overlay-content {
+  z-index: 1050 !important;
+}
+/* The rail and dock must never sit over an open modal. */
+body:has(.overlay-container.show) .chu-rail,
+body:has(.overlay-container.show) .chu-dock { z-index: 10 !important; }
+
+/* --------------------------------------------------------------------------
+   20b.2 imaging — scrolling study list with sticky headers
+
+   #table-scroll is a 35em scroll box whose thead is position:sticky. The theme
+   must not add a second scroll container around it, and must not clip it.
+   -------------------------------------------------------------------------- */
+#table-scroll {
+  border: 1px solid var(--chu-border);
+  border-radius: var(--chu-radius-lg);
+  background: var(--chu-surface);
+  box-shadow: var(--chu-shadow-1);
+  overscroll-behavior: contain;
+}
+/* Never wrap or clip a table that already scrolls itself. */
+#table-scroll .chu-table-scroll { overflow: visible !important; }
+#table-scroll table,
+table[data-sortable] {
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+/* Keep the sticky header opaque and on-brand as rows scroll beneath it. */
+#table-scroll thead th,
+table[data-sortable] thead th {
+  background: var(--chu-surface-sunken) !important;
+  color: var(--chu-ink-muted) !important;
+  font-family: var(--chu-font-ui) !important;
+  border-block-end: 1px solid var(--chu-border-strong) !important;
+  box-shadow: 0 1px 0 var(--chu-border);
+}
+/* Sort arrows are drawn with border-color:inherit on th::after, so they follow
+   the header colour on their own. Nothing to restyle here, just do not break
+   them: the arrow lives on the pseudo-element, not on the th border. */
+table[data-sortable] th[data-sorted="true"] { color: var(--chu-action) !important; }
+
+#table-scroll tbody tr:hover,
+table[data-sortable] tbody tr:hover { background: var(--chu-surface-sunken); }
+#table-scroll td,
+table[data-sortable] td {
+  border-block-end: 1px solid var(--chu-border) !important;
+  color: var(--chu-ink) !important;
+}
+/* Study and series identifiers line up column-wise. */
+.uid-td, .description-td, .numbers-td { font-variant-numeric: tabular-nums; }
+
+/* Filter row that the module floats to the top via tfoot. */
+tfoot input {
+  min-block-size: 30px !important;
+  padding: 4px 8px !important;
+  font-size: var(--chu-text-xs) !important;
+  inline-size: 100%;
+  box-sizing: border-box;
+}
+
+/* --------------------------------------------------------------------------
+   20b.3 imaging — colour harmonisation only, geometry left alone
+
+   The module colour-codes its actions. Those distinctions are preserved and
+   mapped onto CHU tokens, so the meaning survives and the palette matches.
+   Every pairing below clears 4.5:1 with white text.
+   -------------------------------------------------------------------------- */
+.btn-submit, .btn-open-popup-sync {            /* was #009384 OpenMRS teal */
+  background: var(--chu-action) !important;
+  color: var(--chu-ink-inverse) !important;
+}
+.btn-submit:hover, .btn-open-popup-sync:hover { background: var(--chu-action-hover) !important; }
+
+.btn-open-popup-newStudies {                   /* was #EEA616 amber */
+  background: var(--chu-warning) !important;
+  color: var(--chu-ink-inverse) !important;
+}
+.btn-open-popup-upload {                       /* was #5B57A6 violet */
+  background: var(--chu-link) !important;
+  color: var(--chu-ink-inverse) !important;
+}
+.btn-close-popup {                             /* was #F26522 orange */
+  background: var(--chu-surface) !important;
+  color: var(--chu-ink-muted) !important;
+  border: 1px solid var(--chu-border-control) !important;
+}
+.btn-close-popup:hover {
+  background: var(--chu-critical-bg) !important;
+  color: var(--chu-critical) !important;
+  border-color: var(--chu-critical) !important;
+}
+.btn-submit, .btn-close-popup, .btn-open-popup-sync,
+.btn-open-popup-newStudies, .btn-open-popup-upload {
+  font-family: var(--chu-font-ui);
+  font-weight: 600;
+  border-radius: var(--chu-radius-md) !important;
+  padding: 9px var(--chu-space-4);
+  min-block-size: 40px;
+  transition: background-color var(--chu-dur-fast) var(--chu-ease-out),
+              transform var(--chu-dur-fast) var(--chu-ease-out);
+}
+.btn-submit:hover, .btn-close-popup:hover, .btn-open-popup-sync:hover,
+.btn-open-popup-newStudies:hover, .btn-open-popup-upload:hover { transform: translateY(-1px); }
+
+/* An inline link that happens to be a button element. Keep it a link. */
+.table-btn-link {
+  color: var(--chu-link) !important;
+  background: none !important;
+  border: 0 !important;
+  padding: 0 !important;
+  min-block-size: 0 !important;
+  box-shadow: none !important;
+  font: inherit !important;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.table-btn-link:hover { color: var(--chu-link-hover) !important; transform: none !important; }
+
+.popup-box {
+  border-radius: var(--chu-radius-xl) !important;
+  box-shadow: var(--chu-shadow-3) !important;
+  max-inline-size: min(680px, 92vw);
+  inline-size: auto !important;
+}
+.overlay-container { background: rgba(10, 21, 18, .55) !important; }
+.form-container {
+  border: 1px solid var(--chu-border) !important;
+  border-radius: var(--chu-radius-lg) !important;
+  box-shadow: var(--chu-shadow-1) !important;
+  background: var(--chu-surface);
+}
+.form-input, .rpInput {
+  border: 1px solid var(--chu-border-control) !important;
+  border-radius: var(--chu-radius-md) !important;
+  font-family: var(--chu-font-ui) !important;
+}
+.form-input:focus, .rpInput:focus {
+  border-color: var(--chu-action-quiet) !important;
+  box-shadow: 0 0 0 3px var(--chu-action-soft) !important;
+  outline: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   20b.4 patientview and medreport — fully namespaced, colour only
+
+   Both own their layout entirely; the theme supplies typography and brand
+   colour and otherwise stays out of the way.
+   -------------------------------------------------------------------------- */
+.neuro-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--chu-space-2);
+  background: var(--chu-surface);
+  border: 1px solid var(--chu-border);
+  border-radius: var(--chu-radius-lg);
+  box-shadow: var(--chu-shadow-1);
+  position: sticky;
+  inset-block-start: var(--chu-space-4);
+}
+@media (max-width: 900px) { .neuro-sidebar { position: static; } }
+.neuro-nav-item {
+  display: block;
+  /* min-block-size applies to the content box unless this is set, which made
+     each item 44 + 12 + 12 = 68px tall and the sidebar 716px. */
+  box-sizing: border-box;
+  padding: var(--chu-space-3) var(--chu-space-4);
+  border-radius: var(--chu-radius-md);
+  border-inline-start: 3px solid transparent;
+  color: var(--chu-ink-muted) !important;
+  font-weight: 500;
+  min-block-size: 44px;
+  transition: background-color var(--chu-dur-fast) var(--chu-ease-out),
+              color var(--chu-dur-fast) var(--chu-ease-out);
+}
+.neuro-nav-item:hover {
+  background: var(--chu-action-soft);
+  color: var(--chu-action) !important;
+  text-decoration: none !important;
+}
+/* Active section is marked by weight and a rule as well as colour. */
+.neuro-nav-item.neuro-active {
+  background: var(--chu-action-soft);
+  color: var(--chu-action) !important;
+  font-weight: 700;
+  border-inline-start-color: var(--chu-action);
+}
+
+/*
+  The module paints its patient header and score chips with its own gradients
+  (#2c5aa0 blue, #28a745 green). White text on those is fine, but the palette is
+  not CHU's. Re-pointed at the theme tokens; the text stays white and still
+  clears 4.5:1 on both.
+*/
+.neuro-patient-header {
+  background: linear-gradient(135deg, var(--chu-teal-900) 0%, var(--chu-action) 100%) !important;
+  border-radius: var(--chu-radius-lg);
+  box-shadow: var(--chu-shadow-1);
+}
+.neuro-gcs-score, .neuro-action-btn {
+  background: linear-gradient(135deg, var(--chu-action) 0%, var(--chu-teal-700) 100%) !important;
+  color: var(--chu-ink-inverse) !important;
+}
+.neuro-patient-alerts .neuro-alert-panel {
+  background: var(--chu-surface) !important;
+  color: var(--chu-critical) !important;
+  border-inline-start: 4px solid var(--chu-critical) !important;
+  border-radius: var(--chu-radius-md);
+}
+
+/*
+  Two of the module's own text colours fall just under AA on its light panel
+  background: the surgery date at 3.78:1 and the surgeon name at 4.45:1. Both
+  are re-pointed at theme tokens rather than left marginal. (Present in the
+  module with or without the theme.)
+*/
+.neuro-surgery-date { color: var(--chu-link) !important; }
+.neuro-surgeon, .neuro-outcome, .neuro-no-data { color: var(--chu-ink-muted) !important; }
+
+.neuro-panel, .mr-card, .mr-panel {
+  border-color: var(--chu-border) !important;
+  border-radius: var(--chu-radius-lg) !important;
+  box-shadow: var(--chu-shadow-1) !important;
+}
+.neuro-panel-header h2, .neuro-patient-info h1, .mr-card h2, .mr-card h3 {
+  font-family: var(--chu-font-display) !important;
+  color: var(--chu-ink) !important;
+}
+.neuro-btn-primary, .mr-btn-primary {
+  background: var(--chu-action) !important;
+  border-color: var(--chu-action) !important;
+  color: var(--chu-ink-inverse) !important;
+}
+.neuro-btn-primary:hover, .mr-btn-primary:hover {
+  background: var(--chu-action-hover) !important;
+  border-color: var(--chu-action-hover) !important;
+}
+.neuro-btn-secondary, .mr-btn:not(.mr-btn-primary) {
+  background: var(--chu-surface) !important;
+  border: 1px solid var(--chu-border-control) !important;
+  color: var(--chu-ink-muted) !important;
+}
+.neuro-btn-secondary:hover, .mr-btn:not(.mr-btn-primary):hover {
+  border-color: var(--chu-action-quiet) !important;
+  color: var(--chu-action) !important;
+}
+.neuro-btn, .neuro-action-btn, .mr-btn {
+  font-family: var(--chu-font-ui) !important;
+  font-weight: 600 !important;
+  border-radius: var(--chu-radius-md) !important;
+  min-block-size: 40px;
+}
+/* Clinical scores and dates must line up. */
+.neuro-score-value, .neuro-gcs-score, .neuro-surgery-date,
+.neuro-identifier, .mr-date { font-variant-numeric: tabular-nums; }
+
+.neuro-modal-content, .mr-dialog {
+  border-radius: var(--chu-radius-xl) !important;
+  box-shadow: var(--chu-shadow-3) !important;
+}
+
+/* Their alert panels carry a glyph, not colour alone. */
+.neuro-alert-item::before { content: "\26A0"; margin-inline-end: var(--chu-space-2); }
+
+/* The module already stacks .neuro-layout below 900px; only the active marker
+   has to move from the inline edge to the bottom when the rail turns
+   horizontal. Everything else is left to the module's own media query. */
+@media (max-width: 900px) {
+  .neuro-nav-item { border-inline-start: 0; border-block-end: 3px solid transparent; }
+  .neuro-nav-item.neuro-active { border-block-end-color: var(--chu-action); }
+}
 
 /* ==========================================================================
    21. Responsive

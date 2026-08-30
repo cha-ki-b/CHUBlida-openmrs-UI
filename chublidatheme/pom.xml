@@ -6,7 +6,7 @@
 
 	<groupId>dz.chublida.openmrs</groupId>
 	<artifactId>chublidatheme</artifactId>
-	<version>1.0.5</version>
+	<version>1.0.6</version>
 	<packaging>pom</packaging>
 
 	<name>CHU Blida Theme</name>

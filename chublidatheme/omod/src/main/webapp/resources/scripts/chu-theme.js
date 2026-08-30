@@ -522,6 +522,20 @@
     setTimeout(function () { observer.disconnect(); }, 30000);
   }
 
+  /**
+   * True when an ancestor already scrolls, so wrapping the table in another
+   * scroll container would be both redundant and harmful to sticky headers.
+   */
+  function scrollsAlready(el) {
+    var node = el.parentElement;
+    while (node && node !== document.body) {
+      var overflow = getComputedStyle(node).overflowX + ' ' + getComputedStyle(node).overflowY;
+      if (overflow.indexOf('auto') !== -1 || overflow.indexOf('scroll') !== -1) return true;
+      node = node.parentElement;
+    }
+    return false;
+  }
+
   function prepareTables() {
     Array.prototype.slice.call(document.querySelectorAll('table')).forEach(function (table) {
       if (table.dataset.chuTablePrepared) return;
@@ -533,6 +547,19 @@
       var isData = !!table.querySelector('thead th, thead td');
       table.classList.add(isData ? 'chu-data-table' : 'chu-layout-table');
       if (!isData) return;
+
+      // A table that already lives in a scroll container must be left alone.
+      // The imaging module scrolls its study list inside #table-scroll with a
+      // position:sticky thead; adding a second scroll container around it makes
+      // the header stick to the wrong ancestor and it stops working.
+      if (scrollsAlready(table)) return;
+
+      // Sorting UI depends on the real table layout: the arrows are drawn on
+      // th::after and the plugin reads column indexes. Stacking would break it.
+      if (table.hasAttribute('data-sortable')) return;
+
+      // Modules that style their own tables keep them.
+      if (/(^|\s)(neuro-|mr-)/.test(table.className)) return;
 
       var headers = Array.prototype.slice.call(table.querySelectorAll('thead th'))
         .map(function (th) { return (th.textContent || '').replace(/\s+/g, ' ').trim(); });

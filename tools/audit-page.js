@@ -38,15 +38,54 @@
     return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
   };
 
-  /** Walks up until it finds a non-transparent background, the way the eye does. */
+  /**
+   * Walks up until it finds a non-transparent background, the way the eye does.
+   *
+   * Returns null when the nearest painted backdrop is a gradient or image. A
+   * single ratio is meaningless there — the colour varies across the element —
+   * and reading only `backgroundColor` would report a transparent parent and
+   * produce a bogus 1.00. Those are counted separately for manual review
+   * instead of being reported as failures.
+   */
+  const parseRgb = (css) => {
+    const m = (css || '').match(/[\d.]+/g);
+    if (!m || m.length < 3) return null;
+    return { r: +m[0], g: +m[1], b: +m[2], a: m.length > 3 ? +m[3] : 1 };
+  };
+
+  /** Paints `top` (which may be translucent) over `under`. */
+  const composite = (top, under) => ({
+    r: top.r * top.a + under.r * (1 - top.a),
+    g: top.g * top.a + under.g * (1 - top.a),
+    b: top.b * top.a + under.b * (1 - top.a),
+    a: 1,
+  });
+
   const backdrop = (el) => {
+    // Accumulate translucent layers instead of stopping at the first one. A
+    // frosted chip such as rgba(255,255,255,.2) over a dark panel reads as a
+    // light tint of that panel; stopping at the chip alone reported white-on-
+    // white and a bogus 1.00.
+    const layers = [];
     let n = el;
     while (n && n !== document.documentElement) {
-      const c = getComputedStyle(n).backgroundColor;
-      if (c && c !== 'transparent' && !/rgba\(.*,\s*0\s*\)$/.test(c)) return c;
+      const s = getComputedStyle(n);
+      if (s.backgroundImage && s.backgroundImage !== 'none') return null;
+      const c = parseRgb(s.backgroundColor);
+      if (c && c.a > 0) {
+        if (c.a >= 1) {
+          let out = c;
+          for (let i = layers.length - 1; i >= 0; i--) out = composite(layers[i], out);
+          return `rgb(${Math.round(out.r)}, ${Math.round(out.g)}, ${Math.round(out.b)})`;
+        }
+        layers.push(c);
+      }
       n = n.parentElement;
     }
-    return getComputedStyle(document.body).backgroundColor || 'rgb(255,255,255)';
+    let out = parseRgb(getComputedStyle(document.body).backgroundColor) || { r: 255, g: 255, b: 255, a: 1 };
+    if (out.a < 1) out = { r: 255, g: 255, b: 255, a: 1 };
+    for (let i = layers.length - 1; i >= 0; i--) out = composite(layers[i], out);
+    return `rgb(${Math.round(out.r)}, ${Math.round(out.g)}, ${Math.round(out.b)})`;
   };
 
   const visible = (el) => {
@@ -65,6 +104,7 @@
 
   /* ---- contrast over every text-bearing element ---- */
   const contrastFailures = [];
+  const overGradient = [];
   let checked = 0;
 
   document.querySelectorAll('body *').forEach((el) => {
@@ -78,7 +118,12 @@
     const large = size >= 24 || (size >= 18.66 && weight >= 700);
     const need = large ? AA_LARGE : AA_TEXT;
 
-    const r = ratio(s.color, backdrop(el));
+    const bg = backdrop(el);
+    if (bg === null) {
+      overGradient.push({ text: text.slice(0, 44), color: s.color });
+      return;
+    }
+    const r = ratio(s.color, bg);
     if (r === null) return;
     checked++;
     if (r < need) {
@@ -86,7 +131,7 @@
         text: text.slice(0, 44),
         selector: el.tagName.toLowerCase() + (el.className ? '.' + String(el.className).trim().split(/\s+/).slice(0, 2).join('.') : ''),
         color: s.color,
-        background: backdrop(el),
+        background: bg,
         size: size + 'px',
         ratio: +r.toFixed(2),
         required: need,
@@ -191,7 +236,8 @@
       revealed: document.querySelectorAll('.chu-reveal').length,
       stackableTables: document.querySelectorAll('table.chu-stack').length,
     },
-    contrast: { elementsChecked: checked, failures: contrastFailures.length },
+    contrast: { elementsChecked: checked, failures: contrastFailures.length,
+                overGradientNotRated: overGradient.length },
     horizontalScroll: { possible: maxScrollX > 0, maxScrollX, bleedingElements: bleeding },
     touchTargetsUnder44px: smallTargets.length,
     statusColourOnly: colourOnly.length,
@@ -203,6 +249,7 @@
   if (contrastFailures.length) { console.warn('Contrast failures:'); console.table(contrastFailures); }
   if (smallTargets.length) { console.warn('Touch targets under 44px:'); console.table(smallTargets); }
   if (colourOnly.length) console.warn('Status conveyed by colour alone:', colourOnly);
+  if (overGradient.length) console.info('Not rated (text sits on a gradient or image - check by eye):', overGradient.length);
   if (!problems) console.log('%cNo accessibility or layout problems found.', 'color:#1A6C53');
 
   return report;
